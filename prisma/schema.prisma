@@ -13,29 +13,29 @@ datasource db {
 model Alias {
   id            Int             @id @default(autoincrement())
   name          String          @unique
-  category      Category        @relation(fields: [categoryId], references: [id])
-  categoryId    Int
+  taxonomy      Taxonomy        @relation(fields: [taxonomyId], references: [id])
+  taxonomyId    Int
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 }
 
-model Category {
+model Taxonomy {
   id            Int             @id @default(autoincrement())
   active        Boolean         @default(true)
   name          String          @unique
-  parent        Category?       @relation("NestedCategory", fields: [parentId], references: [id])
+  parent        Taxonomy?       @relation("NestedTaxonomy", fields: [parentId], references: [id])
   parentId      Int
   avatar        String?
   aliases       Alias[]
   tasks         Task[]
-  children      Category[]      @relation("NestedCategory")
+  children      Taxonomy[]      @relation("NestedTaxonomy")
   notes         Note[]
-  type          CategoryType    @default(Project)
+  type          TaxonomyType    @default(Project)
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 }
 
-enum CategoryType {
+enum TaxonomyType {
   Person
   Project
   Organization
@@ -44,17 +44,17 @@ enum CategoryType {
 model Note {
   id            Int             @id @default(autoincrement())
   tasks         Task[]
-  category      Category?       @relation(fields: [categoryId], references: [id])
-  categoryId    Int 
+  taxonomy      Taxonomy?       @relation(fields: [taxonomyId], references: [id])
+  taxonomyId    Int 
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 }
 
 model Task {
-  id	          Int	  		      @id @default(autoincrement())
+  id	        Int	  		    @id @default(autoincrement())
   description   String
   complete      Boolean         @default(false)
-  assignedTo    Category        @relation(fields: [assignedToId], references: [id])
+  assignedTo    Taxonomy        @relation(fields: [assignedToId], references: [id])
   assignedToId  Int
   note          Note?           @relation(fields: [noteId], references: [id])
   noteId        Int
