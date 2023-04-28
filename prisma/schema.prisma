@@ -39,6 +39,7 @@ enum TaxonomyType {
   Person
   Project
   Organization
+  Category
 }
 
 model Note {
