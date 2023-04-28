@@ -52,7 +52,7 @@ model Note {
 }
 
 model Task {
-  id	        Int	  		    @id @default(autoincrement())
+  id	          Int	  		      @id @default(autoincrement())
   description   String
   complete      Boolean         @default(false)
   assignedTo    Taxonomy        @relation(fields: [assignedToId], references: [id])
